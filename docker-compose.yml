@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  meme-generator:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./static/memes:/app/static/memes
