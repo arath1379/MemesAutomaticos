@@ -15,6 +15,11 @@ TEMPLATES = {
     "Distracted Boyfriend": "112126428",
     "Expanding Brain": "93895088",
     "Mocking Spongebob": "102156234",
+    "Change My Mind": "129242436",
+    "UNO Reverse Card": "206785338",
+    "Is This a Pigeon?": "100777631",
+    "Gru Plan": "119139145",
+    "Left Exit 12 Off Ramp": "124822590",
 }
 
 # Lista de frases aleatorias
@@ -23,6 +28,14 @@ PHRASES = [
     ("Cuando intentas programar en viernes", "Pero falla en producción"),
     ("Código en local:", "Código en producción:"),
     ("Cuando el código funciona", "Pero no sabes por qué"),
+    ("Mi plan:", "El destino:"),
+    ("Cuando compilas sin errores", "Pero nada funciona como debería"),
+    ("Intento ahorrar dinero", "Pero Steam hace una oferta"),
+    ("Dije que dormiría temprano", "Yo a las 3 AM viendo memes"),
+    ("Cuando abres Stack Overflow", "Y ves la respuesta aceptada"),
+    ("Voy a dormir 8 horas", "Error 404: sueño no encontrado"),
+    ("Voy al gym", "Me lastimo en el primer ejercicio"),
+    ("Cuando el profe dice que el examen es fácil", "Pero nadie pasa de 5"),
 ]
 
 def generar_meme():
@@ -39,12 +52,18 @@ def generar_meme():
         "text1": bottom_text,
     }
 
-    response = requests.post(url, data=params)
-    data = response.json()
+    try:
+        response = requests.post(url, data=params)
+        data = response.json()
 
-    if data["success"]:
-        return data["data"]["url"]
-    return None
+        if data.get("success"):
+            return data["data"]["url"]
+        else:
+            print("Error en API:", data.get("error_message"))
+            return None
+    except requests.RequestException as e:
+        print("Error en la solicitud:", e)
+        return None
 
 @app.route("/")
 def home():
